@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>The Design Manual | Ultimate Guide to Graphic Design</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2E1065; /* Deep violet for elegance */
+            --secondary: #F97316; /* Bright orange for energy */
+            --accent: #22D3EE; /* Cyan for modern vibrancy */
+            --background: #F8FAFC; /* Light slate for clean aesthetic */
+            --text-light: #0F172A; /* Dark slate for readability */
+            --text-dark: #0F172A; /* Consistent dark for contrast */
+            --glass: rgba(255, 255, 255, 0.45); /* Subtle glass effect */
+            --glass-hover: rgba(255, 255, 255, 0.65); /* Brighter hover effect */
+            --shadow: rgba(0, 0, 0, 0.2); /* Soft shadow for depth */
+            --glow: rgba(249, 115, 22, 0.75); /* Orange glow for warmth */
+            --correct: #10B981; /* Emerald green for correct answers */
+            --incorrect: #EF4444; /* Bright red for incorrect answers */
+        }
+
+        [data-theme="dark"] {
+            --primary: #4C1D95; /* Softer violet for dark mode */
+            --secondary: #F97316; /* Same orange for consistency */
+            --accent: #22D3EE; /* Same cyan for vibrancy */
+            --background: #0F172A; /* Deep slate for dark mode depth */
+            --text-light: #E2E8F0; /* Light slate for readability */
+            --text-dark: #0F172A; /* Retained for consistency */
+            --glass: rgba(255, 255, 255, 0.1); /* Subtle glass in dark mode */
+            --glass-hover: rgba(255, 255, 255, 0.2); /* Slightly brighter hover */
+            --shadow: rgba(0, 0, 0, 0.5); /* Stronger shadow for dark mode */
+            --glow: rgba(249, 115, 22, 0.75); /* Same orange glow */
+            --correct: #10B981; /* Same green for consistency */
+            --incorrect: #EF4444; /* Same red for consistency */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            font-family: 'Inter', sans-serif;
+            background: var(--background);
+            color: var(--text-light);
+            overflow-x: hidden;
+            transition: background 0.3s ease, color 0.3s ease;
+            line-height: 1.6;
+        }
+
+        .creative-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at top right, rgba(34, 211, 238, 0.3) 0%, var(--background) 70%);
+        }
+
+        .shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .shape {
+            position: absolute;
+            background: var(--secondary);
+            opacity: 0.35;
+            animation: float 10s infinite ease-in-out;
+        }
+
+        .circle { border-radius: 50%; }
+        .square { border-radius: 10px; }
+        .triangle { clip-path: polygon(50% 0%, 0% 100%, 100% 100%); }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+            100% { transform: translateY(0) rotate(0deg); }
+        }
+
+        .mode-toggle {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1001;
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            border: 2px solid var(--secondary);
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .mode-toggle:hover {
+            background: var(--secondary);
+            transform: scale(1.1);
+        }
+
+        .mode-toggle i {
+            font-size: 1.4rem;
+            color: var(--text-light);
+        }
+
+        .main-container {
+            position: relative;
+            z-index: 1;
+            padding-bottom: 80px;
+            width: 100%;
+            max-width: 100%;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 120px 20px 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 7vw, 4.5rem);
+            font-weight: 700;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--text-light), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+            animation: circularReveal 2s ease-out forwards;
+        }
+
+        .hero-subtitle {
+            font-family: 'Inter', sans-serif;
+            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+            opacity: 0.85;
+            margin-bottom: 30px;
+            animation: circularReveal 2s ease-out 0.5s forwards;
+        }
+
+        @keyframes circularReveal {
+            0% {
+                clip-path: circle(0% at 50% 50%);
+                opacity: 0;
+            }
+            100% {
+                clip-path: circle(100% at 50% 50%);
+                opacity: 1;
+            }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .section {
+            margin-bottom: 60px;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.8rem, 4vw, 2.2rem);
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        .knowledge-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .knowledge-card {
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            border: 2px solid var(--accent);
+            border-radius: 15px;
+            padding: 25px;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 0 6px 20px var(--shadow);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .knowledge-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px var(--shadow);
+            border-color: var(--secondary);
+        }
+
+        .knowledge-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .knowledge-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .knowledge-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .knowledge-icon {
+            font-size: 2rem;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px var(--glow);
+            animation: pulse 2.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+        }
+
+        .knowledge-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-light);
+        }
+
+        .knowledge-description {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            line-height: 1.7;
+            color: var(--text-light);
+        }
+
+        .knowledge-link {
+            display: inline-block;
+            margin-top: 10px;
+            color: var(--secondary);
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .knowledge-link:hover {
+            color: var(--text-light);
+            transform: translateX(5px);
+        }
+
+        .detail-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            z-index: 1002;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .detail-container {
+            background: linear-gradient(135deg, var(--glass), rgba(34, 211, 238, 0.2));
+            border: 2px solid var(--secondary);
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 900px;
+            width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 6px 25px var(--shadow);
+            position: relative;
+            color: var(--text-light);
+            animation: fadeInUp 0.5s ease;
+        }
+
+        .detail-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.6rem, 4vw, 2rem);
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 20px;
+            text-align: center;
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .detail-content {
+            font-family: 'Inter', sans-serif;
+            font-size: clamp(0.85rem, 2vw, 0.95rem);
+            line-height: 1.8;
+            color: var(--text-light);
+        }
+
+        .detail-section {
+            margin-bottom: 25px;
+            padding: 15px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            transition: background 0.3s ease;
+        }
+
+        .detail-section:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .detail-subheader {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.2rem, 2.5vw, 1.4rem);
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 12px;
+            position: relative;
+        }
+
+        .detail-subheader::after {
+            content: '';
+            width: 40px;
+            height: 2px;
+            background: var(--secondary);
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            border-radius: 1px;
+        }
+
+        .detail-list {
+            list-style-type: none;
+            padding-left: 15px;
+        }
+
+        .detail-list li {
+            position: relative;
+            margin-bottom: 10px;
+            padding-left: 15px;
+            font-size: clamp(0.8rem, 2vw, 0.9rem);
+            line-height: 1.7;
+            transition: color 0.3s ease;
+        }
+
+        .detail-list li:hover {
+            color: var(--secondary);
+        }
+
+        .detail-list li::before {
+            content: '✦';
+            position: absolute;
+            left: 0;
+            color: var(--secondary);
+            font-size: 1rem;
+        }
+
+        .detail-list li strong {
+            color: var(--secondary);
+            font-weight: 600;
+        }
+
+        .close-btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            color: var(--text-light);
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-top: 15px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .close-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px var(--glow);
+        }
+
+        footer {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border-top: 2px solid var(--secondary);
+            padding: 20px;
+            text-align: center;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-top: 40px;
+        }
+
+        footer a {
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: var(--text-light);
+        }
+
+        @media (max-width: 1024px) {
+            .hero {
+                padding: 100px 15px 50px;
+            }
+
+            .hero-title {
+                font-size: clamp(2rem, 6vw, 3.5rem);
+            }
+
+            .knowledge-grid {
+                grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+                gap: 20px;
+            }
+
+            .detail-container {
+                padding: 25px;
+                max-width: 700px;
+                max-height: 90vh;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                padding: 80px 15px 40px;
+            }
+
+            .hero-title {
+                font-size: clamp(1.8rem, 5vw, 3rem);
+            }
+
+            .section-title {
+                font-size: clamp(1.6rem, 4vw, 2rem);
+            }
+
+            .detail-container {
+                padding: 20px;
+                max-width: 95%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .knowledge-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .knowledge-card {
+                padding: 20px;
+            }
+
+            .knowledge-title {
+                font-size: 1.3rem;
+            }
+
+            .detail-container {
+                padding: 15px;
+                max-width: 95%;
+            }
+
+            .detail-title {
+                font-size: clamp(1.2rem, 3.5vw, 1.5rem);
+            }
+
+            .close-btn {
+                padding: 8px 16px;
+                font-size: 0.85rem;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.5s ease both;
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <div class="creative-background">
+        <div class="shapes" id="shapes"></div>
+    </div>
+
+    <div class="mode-toggle" onclick="toggleTheme()">
+        <i class="fas fa-sun"></i>
+    </div>
+
+    <div class="main-container">
+        <section class="hero">
+            <h1 class="hero-title">The Design Manual</h1>
+            <p class="hero-subtitle">Your Essential Guide to Mastering Graphic Design</p>
+        </section>
+
+        <div class="container">
+            <section class="section" id="design-principles">
+                <h2 class="section-title">Fundamental Design Principles</h2>
+                <div class="knowledge-grid">
+                    <div class="knowledge-card fade-in-up" data-knowledge="balance">
+                        <div class="knowledge-header">
+                            <div class="knowledge-icon"><i class="fas fa-balance-scale"></i></div>
+                            <h3 class="knowledge-title">Balance</h3>
+                        </div>
+                        <div class="knowledge-content">
+                            <p class="knowledge-description">Achieve visual stability through symmetrical or asymmetrical arrangements.</p>
+                            <a href="#" class="knowledge-link" onclick="toggleDetail('balance')">Learn More</a>
+                        </div>
+                    </div>
+                    <div class="knowledge-card fade-in-up" data-knowledge="contrast">
+                        <div class="knowledge-header">
+                            <div class="knowledge-icon"><i class="fas fa-adjust"></i></div>
+                            <h3 class="knowledge-title">Contrast</h3>
+                        </div>
+                        <div class="knowledge-content">
+                            <p class="knowledge-description">Use differences in color, size, or shape to create visual interest.</p>
+                            <a href="#" class="knowledge-link" onclick="toggleDetail('contrast')">Learn More</a>
+                        </div>
+                    </div>
+                    <div class="knowledge-card fade-in-up" data-knowledge="hierarchy">
+                        <div class="knowledge-header">
+                            <div class="knowledge-icon"><i class="fas fa-sitemap"></i></div>
+                            <h3 class="knowledge-title">Hierarchy</h3>
+                        </div>
+                        <div class="knowledge-content">
+                            <p class="knowledge-description">Guide viewer attention with size, color, and spacing.</p>
+                            <a href="#" class="knowledge-link" onclick="toggleDetail('hierarchy')">Learn More</a>
+                        </div>
+                    </div>
+                    <div class="knowledge-card fade-in-up" data-knowledge="alignment">
+                        <div class="knowledge-header">
+                            <div class="knowledge-icon"><i class="fas fa-align-center"></i></div>
+                            <h3 class="knowledge-title">Alignment</h3>
+                        </div>
+                        <div class="knowledge-content">
+                            <p class="knowledge-description">Ensure elements are organized for a cohesive layout.</p>
+                            <a href="#" class="knowledge-link" onclick="toggleDetail('alignment')">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section" id="design-rules">
+                <h2 class="section-title">Rules of Graphic Design</h2>
+                <div class="knowledge-grid">
+                    <div class="knowledge-card fade-in-up" data-knowledge="color-theory">
+                        <div class="knowledge-header">
+                            <div class="knowledge-icon"><i class="fas fa-palette"></i></div>
+                            <h3 class="knowledge-title">Color Theory</h3>
+                        </div>
+                        <div class="knowledge-content">
+                            <p class="knowledge-description">Use color relationships to create harmonious designs.</p>
+                            <a href="#" class="knowledge-link" onclick="toggleDetail('color-theory')">Learn More</a>
+                        </div>
+                    </div>
+                    <div class="knowledge-card fade-in-up" data-knowledge="typography">
+                        <div class="knowledge-header">
+                            <div class="knowledge-icon"><i class="fas fa-font"></i></div>
+                            <h3 class="knowledge-title">Typography</h3>
+                        </div>
+                        <div class="knowledge-content">
+                            <p class="knowledge-description">Select and arrange typefaces for clarity and impact.</p>
+                            <a href="#" class="knowledge-link" onclick="toggleDetail('typography')">Learn More</a>
+                        </div>
+                    </div>
+                    <div class="knowledge-card fade-in-up" data-knowledge="white-space">
+                        <div class="knowledge-header">
+                            <div class="knowledge-icon"><i class="fas fa-square"></i></div>
+                            <h3 class="knowledge-title">White Space</h3>
+                        </div>
+                        <div class="knowledge-content">
+                            <p class="knowledge-description">Leverage empty space to enhance readability and focus.</p>
+                            <a href="#" class="knowledge-link" onclick="toggleDetail('white-space')">Learn More</a>
+                        </div>
+                    </div>
+                    <div class="knowledge-card fade-in-up" data-knowledge="consistency">
+                        <div class="knowledge-header">
+                            <div class="knowledge-icon"><i class="fas fa-clone"></i></div>
+                            <h3 class="knowledge-title">Consistency</h3>
+                        </div>
+                        <div class="knowledge-content">
+                            <p class="knowledge-description">Maintain uniformity in design elements for coherence.</p>
+                            <a href="#" class="knowledge-link" onclick="toggleDetail('consistency')">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section" id="design-tips">
+                <h2 class="section-title">Essential Design Tips</h2>
+                <div class="knowledge-grid">
+                    <div class="knowledge-card fade-in-up" data-knowledge="simplicity">
+                        <div class="knowledge-header">
+                            <div class="knowledge-icon"><i class="fas fa-minimize"></i></div>
+                            <h3 class="knowledge-title">Keep It Simple</h3>
+                        </div>
+                        <div class="knowledge-content">
+                            <p class="knowledge-description">Prioritize clarity by avoiding unnecessary elements.</p>
+                            <a href="#" class="knowledge-link" onclick="toggleDetail('simplicity')">Learn More</a>
+                        </div>
+                    </div>
+                    <div class="knowledge-card fade-in-up" data-knowledge="audience">
+                        <div class="knowledge-header">
+                            <div class="knowledge-icon"><i class="fas fa-users"></i></div>
+                            <h3 class="knowledge-title">Know Your Audience</h3>
+                        </div>
+                        <div class="knowledge-content">
+                            <p class="knowledge-description">Design with your target audience’s preferences in mind.</p>
+                            <a href="#" class="knowledge-link" onclick="toggleDetail('audience')">Learn More</a>
+                        </div>
+                    </div>
+                    <div class="knowledge-card fade-in-up" data-knowledge="accessibility">
+                        <div class="knowledge-header">
+                            <div class="knowledge-icon"><i class="fas fa-universal-access"></i></div>
+                            <h3 class="knowledge-title">Accessibility</h3>
+                        </div>
+                        <div class="knowledge-content">
+                            <p class="knowledge-description">Ensure designs are inclusive for all users.</p>
+                            <a href="#" class="knowledge-link" onclick="toggleDetail('accessibility')">Learn More</a>
+                        </div>
+                    </div>
+                    <div class="knowledge-card fade-in-up" data-knowledge="iteration">
+                        <div class="knowledge-header">
+                            <div class="knowledge-icon"><i class="fas fa-redo"></i></div>
+                            <h3 class="knowledge-title">Iterate and Refine</h3>
+                        </div>
+                        <div class="knowledge-content">
+                            <p class="knowledge-description">Continuously refine designs based on feedback.</p>
+                            <a href="#" class="knowledge-link" onclick="toggleDetail('iteration')">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div class="detail-overlay" id="detailOverlay">
+            <div class="detail-container">
+                <h3 class="detail-title" id="detailTitle"></h3>
+                <div class="detail-content" id="detailContent"></div>
+                <button class="close-btn" onclick="closeDetail()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        Powered by <a href="https://moyor-graphics.vercel.app" target="_blank">Moyor Graphics</a> | © <span id="footer-year"></span> The Design Manual
+    </footer>
+
+    <script>
+        const knowledgeDetails = {
+            'balance': {
+                title: 'Balance',
+                content: `
+                    <div class="detail-section">
+                        <h4 class="detail-subheader">Overview</h4>
+                        <p>Balance ensures visual stability by distributing elements evenly in a design.</p>
+                    </div>
+                    <div class="detail-section">
+                        <h4 class="detail-subheader">Key Concepts</h4>
+                        <ul class="detail-list">
+                            <li><strong>Symmetrical Balance</strong>: Equal weight on both sides of a central axis.</li>
+                            <li><strong>Asymmetrical Balance</strong>: Unequal elements balanced through contrast or placement.</li>
+                            <li><strong>Radial Balance</strong>: Elements radiate from a central point, creating harmony.</li>
+                        </ul>
+                    </div>
+                    <div class="detail-section">
+                        <h4 class="detail-subheader">Rules</h4>
+                        <ul class="detail-list">
+                            <li>Ensure visual weight is distributed to avoid a lopsided design.</li>
+                            <li>Use grids to maintain consistent alignment and balance.</li>
+                            <li>Avoid overcrowding one side of the composition.</li>
+                        </ul>
+                    </div>
+                    <div class="detail-section">
+                        <h4 class="detail-subheader">Tip</h4>
+                        <p>Test balance by viewing your design in grayscale to focus on weight distribution.</p>
+                    </div>
+                    <div class="detail-section">
+                        <h4 class="detail-subheader">Fun Fact</h4>
+                        <p>Symmetrical balance is often used in classical art for its calming effect!</p>
+                    </div>
+                `
+            },
+            'contrast': {
+                title: 'Contrast',
+                content: `
+                    <div class="detail-section">
+                        <h4 class="detail-subheader">Overview</h4>
+                        <p>Contrast creates visual interest by highlighting differences in elements like color, size, or shape.</p>
+                    </div>
+                    <div class="detail-section">
+                        <h4 class="detail-subheader">Key Concepts</h4>
+                        <ul class="detail-list">
+                            <li><strong>Color Contrast</strong>: Use opposing colors for emphasis (e.g., light text on dark background).</li>
+                            <li><strong>Size Contrast</strong>: Pair large and small elements to create hierarchy.</li>
+                            <li><strong>Shape Contrast</strong>: Combine different shapes to add variety.</li>
+                        </ul>
+                    </div>
+                    <div class="detail-section">
+                        <h4 class="detail-subheader">Rules</h4>
+                        <ul class="detail-list">
+                            <li>Ensure sufficient contrast for text readability (WCAG 4.5:1 for normal text).</li>
+                            <li>Avoid clashing colors that cause visual strain.</li>
+                            <li>Use contrast to guide the viewer’s eye to key elements.</li>
+                        </ul>
+                    </div>
+                    <div class="detail-section">
+                        <h4 class="detail-subheader">Tip</h4>
+                        <p>Use tools like WebAIM’s Contrast Checker to ensure accessibility.</p>
+                    </div>
+                    <div class="detail-section">
+                        <h4 class="detail-subheader">Fun Fact</h4>
+                        <p>High contrast designs are more memorable, as they grab attention instantly!</p>
+                    </div>
+                `
+            },
+            'hierarchy': {
+                title: 'Hierarchy',
+                content: `
+                    <div class="detail-section">
+                        <h4 class="detail-subheader">Overview</h4>
+                        <p>Hierarchy organizes content to guide the viewer’s eye through a design in a deliberate order.</p>
+                    </div>
+                    <div class="detail-section">
+                        <h4 class="detail-subheader">Key Concepts</h4>
+                        <ul class="detail-list">
+                            <li><strong>Size</strong>: Larger elements draw attention first.</li>
+                            <li><strong>Color</strong>: Bold or contrasting colors emphasize importance.</li>
+                            <li><strong>Spacing</strong>: Strategic use of space isolates key elements.</li>
+                        </ul>
+                    </div>
+                    <div class="detail-section">
+                        <h4 class="detail-subheader">Rules</h4>
+                        <ul class="detail-list">
+                            <li>Prioritize key information with larger, bolder fonts or colors.</li>
+                            <li>Use consistent hierarchy across all design elements.</li>
+                            <li>Avoid equal emphasis on all elements to prevent confusion.</li>
+                        </ul>
+                    </div>
+                    <div class="detail-section">
+                        <h4 class="detail-subheader">Tip</h4>
+                        <p>Create a visual hierarchy map before designing to plan the flow of attention.</p>
+                    </div>
+                    <div class="detail-section">
+                        <h4 class="detail-subheader">Fun Fact</h4>
+                        <p>Newspapers use hierarchy to prioritize headlines over body text!</p>
+                    </div>
+                `
+            },
+            'alignment': {
+                title: 'Alignment',
+                content: `
+                    <div class="detail-section">
+                        <h4 class="detail-subheader">Overview</h4>
+                        <p>Alignment organizes elements to create a cohesive and professional design.</p>
+                    </div>
+                    <div class="detail-section">
+                        <h4 class="detail-subheader">Key Concepts</h4>
+                        <ul class="detail-list">
+                            <li><strong>Grid Systems</strong>: Use grids to ensure consistent alignment.</li>
+                            <li><strong>Edge Alignment</strong>: Align elements to left, right, or center for structure.</li>
+                            <li><strong>Visual Flow</strong>: Alignment guides the viewer’s eye smoothly.</li>
+                        </ul>
+                    </div>
+                    <div class="detail-section">
+                        <h4 class="detail-subheader">Rules</h4>
+                        <ul class="detail-list">
+                            <li>Align text and images to a grid for consistency.</li>
+                            <li>Avoid arbitrary placement of elements.</li>
+                            <li>Use alignment to reinforce hierarchy and balance.</li>
+                        </ul>
+                    </div>
+                    <div class="detail-section">
+                        <h4 class="detail-subheader">Tip</h4>
+                        <p>Enable grid overlays in design software to maintain precise alignment.</p>
+                    </div>
+                    <div class="detail-section">
+                        <h4 class="detail-subheader">Fun Fact</h4>
+                        <p>Aligned designs are perceived as more trustworthy and professional!</p>
+                    </div>
+                `
+            },
+            'color-theory': {
+                title: 'Color Theory',
+                content: `
+                    <div class="detail-section">
+                        <h4 class="detail-subheader">Overview</h4>
+                        <p>Color theory governs the use of colors to create visually appealing and emotionally resonant designs.</p>
+                    </div>
+                    <div class="detail-section">
+                        <h4 class="detail-subheader">Key Concepts</h4>
+                        <ul class="detail-list">
+                            <li><strong>Color Wheel</strong>: Shows relationships between primary, secondary, and tertiary colors.</li>
+                            <li><strong>Harmony</strong>: Schemes like complementary, analogous, or triadic create balance.</li>
+                            <li><strong>Psychology</strong>: Colors evoke emotions (e.g., orange for enthusiasm, violet for luxury).</li>
+                        </ul>
+                    </div>
+                    <div class="detail-section">
+                        <h4 class="detail-subheader">Rules</h4>
+                        <ul class="detail-list">
+                            <li>Limit palettes to 2-3 main colors with accents.</li>
+                            <li>Ensure sufficient contrast for accessibility (WCAG standards).</li>
+                            <li>Match colors to the design’s purpose and audience.</li>
+                        </ul>
+                    </div>
+                    <div class="detail-section">
+                        <h4 class="detail-subheader">Tip</h4>
+                        <p>Use tools like Coolors to generate harmonious color schemes quickly.</p>
+                    </div>
+                    <div class="detail-section">
+                        <h4 class="detail-subheader">Fun Fact</h4>
+                        <p>Coca-Cola’s red evokes excitement and passion, aligning with its brand energy!</p>
+                    </div>
+                `
+            },
+            'typography': {
+                title: 'Typography',
+                content: `
+                    <div class="detail-section">
+                        <h4 class="detail-subheader">Overview</h4>
+                        <p>Typography involves selecting and arranging typefaces to ensure readability and aesthetic appeal.</p>
+                    </div>
+                    <div class="detail-section">
+                        <h4 class="detail-subheader">Key Concepts</h4>
+                        <ul class="detail-list">
+                            <li><strong>Typeface vs. Font</strong>: Typeface is the design; font is the specific style.</li>
+                            <li><strong>Kerning</strong>: Adjust space between letters for balance.</li>
+                            <li><strong>Leading</strong>: Control line spacing for readability.</li>
+                        </ul>
+                    </div>
+                    <div class="detail-section">
+                        <h4 class="detail-subheader">Rules</h4>
+                        <ul class="detail-list">
+                            <li>Use no more than 2-3 fonts per design.</li>
+                            <li>Ensure text is legible at all sizes.</li>
+                            <li>Pair contrasting fonts (e.g., serif and sans-serif) for harmony.</li>
+                        </ul>
+                    </div>
+                    <div class="detail-section">
+                        <h4 class="detail-subheader">Tip</h4>
+                        <p>Test typography on different devices to ensure legibility.</p>
+                    </div>
+                    <div class="detail-section">
+                        <h4 class="detail-subheader">Fun Fact</h4>
+                        <p>Helvetica is one of the most used fonts due to its clean, neutral look!</p>
+                    </div>
+                `
+            },
+            'white-space': {
+                title: 'White Space',
+                content: `
+                    <div class="detail-section">
+                        <h4 class="detail-subheader">Overview</h4>
+                        <p>White space, or negative space, is the empty area around design elements, enhancing clarity and focus.</p>
+                    </div>
+                    <div class="detail-section">
+                        <h4 class="detail-subheader">Key Concepts</h4>
+                        <ul class="detail-list">
+                            <li><strong>Micro White Space</strong>: Small gaps between elements (e.g., letter spacing).</li>
+                            <li><strong>Macro White Space</strong>: Larger areas separating sections.</li>
+                            <li><strong>Visual Breathing Room</strong>: Prevents cluttered designs.</li>
+                        </ul>
+                    </div>
+                    <div class="detail-section">
+                        <h4 class="detail-subheader">Rules</h4>
+                        <ul class="detail-list">
+                            <li>Use white space to separate distinct sections.</li>
+                            <li>Avoid filling every space to maintain clarity.</li>
+                            <li>Balance white space with content for visual comfort.</li>
+                        </ul>
+                    </div>
+                    <div class="detail-section">
+                        <h4 class="detail-subheader">Tip</h4>
+                        <p>Experiment with white space to create a luxurious or minimalist feel.</p>
+                    </div>
+                    <div class="detail-section">
+                        <h4 class="detail-subheader">Fun Fact</h4>
+                        <p>Apple’s designs use generous white space for a premium aesthetic!</p>
+                    </div>
+                `
+            },
+            'consistency': {
+                title: 'Consistency',
+                content: `
+                    <div class="detail-section">
+                        <h4 class="detail-subheader">Overview</h4>
+                        <p>Consistency ensures all design elements align to create a cohesive and professional look.</p>
+                    </div>
+                    <div class="detail-section">
+                        <h4 class="detail-subheader">Key Concepts</h4>
+                        <ul class="detail-list">
+                            <li><strong>Visual Consistency</strong>: Uniform colors, fonts, and layouts.</li>
+                            <li><strong>Branding Consistency</strong>: Maintain brand identity across platforms.</li>
+                            <li><strong>Functional Consistency</strong>: Predictable patterns for user experience.</li>
+                        </ul>
+                    </div>
+                    <div class="detail-section">
+                        <h4 class="detail-subheader">Rules</h4>
+                        <ul class="detail-list">
+                            <li>Create and follow brand guidelines for uniformity.</li>
+                            <li>Use consistent typography and color schemes.</li>
+                            <li>Ensure layouts follow a predictable structure.</li>
+                        </ul>
+                    </div>
+                    <div class="detail-section">
+                        <h4 class="detail-subheader">Tip</h4>
+                        <p>Develop a style guide early to maintain consistency across projects.</p>
+                    </div>
+                    <div class="detail-section">
+                        <h4 class="detail-subheader">Fun Fact</h4>
+                        <p>Consistent branding can increase revenue by up to 23%!</p>
+                    </div>
+                `
+            },
+            'simplicity': {
+                title: 'Keep It Simple',
+                content: `
+                    <div class="detail-section">
+                        <h4 class="detail-subheader">Overview</h4>
+                        <p>Simplicity focuses on eliminating unnecessary elements to create clear, effective designs.</p>
+                    </div>
+                    <div class="detail-section">
+                        <h4 class="detail-subheader">Key Concepts</h4>
+                        <ul class="detail-list">
+                            <li><strong>Minimalism</strong>: Use only essential elements.</li>
+                            <li><strong>Clarity</strong>: Prioritize clear communication over decoration.</li>
+                            <li><strong>Focus</strong>: Highlight key elements without distractions.</li>
+                        </ul>
+                    </div>
+                    <div class="detail-section">
+                        <h4 class="detail-subheader">Rules</h4>
+                        <ul class="detail-list">
+                            <li>Avoid overloading designs with too many elements.</li>
+                            <li>Use simple shapes and clean lines.</li>
+                            <li>Ensure every element serves a purpose.</li>
+                        </ul>
+                    </div>
+                    <div class="detail-section">
+                        <h4 class="detail-subheader">Tip</h4>
+                        <p>Remove one element from your design and see if it still works—repeat until essential.</p>
+                    </div>
+                    <div class="detail-section">
+                        <h4 class="detail-subheader">Fun Fact</h4>
+                        <p>Google’s homepage is a prime example of simplicity in design!</p>
+                    </div>
+                `
+            },
+            'audience': {
+                title: 'Know Your Audience',
+                content: `
+                    <div class="detail-section">
+                        <h4 class="detail-subheader">Overview</h4>
+                        <p>Understanding your audience ensures designs resonate with their preferences and needs.</p>
+                    </div>
+                    <div class="detail-section">
+                        <h4 class="detail-subheader">Key Concepts</h4>
+                        <ul class="detail-list">
+                            <li><strong>Demographics</strong>: Consider age, gender, and culture.</li>
+                            <li><strong>Preferences</strong>: Align colors, fonts, and imagery with audience tastes.</li>
+                            <li><strong>Context</strong>: Design for the platform (e.g., web, print, mobile).</li>
+                        </ul>
+                    </div>
+                    <div class="detail-section">
+                        <h4 class="detail-subheader">Rules</h4>
+                        <ul class="detail-list">
+                            <li>Research your audience before starting a design.</li>
+                            <li>Tailor visuals to match audience expectations.</li>
+                            <li>Test designs with target users for feedback.</li>
+                        </ul>
+                    </div>
+                    <div class="detail-section">
+                        <h4 class="detail-subheader">Tip</h4>
+                        <p>Create user personas to guide your design decisions.</p>
+                    </div>
+                    <div class="detail-section">
+                        <h4 class="detail-subheader">Fun Fact</h4>
+                        <p>Designs tailored to audiences can boost engagement by 30%!</p>
+                    </div>
+                `
+            },
+            'accessibility': {
+                title: 'Accessibility',
+                content: `
+                    <div class="detail-section">
+                        <h4 class="detail-subheader">Overview</h4>
+                        <p>Accessibility ensures designs are usable by people with diverse abilities.</p>
+                    </div>
+                    <div class="detail-section">
+                        <h4 class="detail-subheader">Key Concepts</h4>
+                        <ul class="detail-list">
+                            <li><strong>Color Contrast</strong>: Meet WCAG standards for readability.</li>
+                            <li><strong>Text Size</strong>: Use legible font sizes (16px minimum for body text).</li>
+                            <li><strong>Alt Text</strong>: Describe images for screen readers.</li>
+                        </ul>
+                    </div>
+                    <div class="detail-section">
+                        <h4 class="detail-subheader">Rules</h4>
+                        <ul class="detail-list">
+                            <li>Ensure 4.5:1 contrast ratio for normal text.</li>
+                            <li>Use scalable fonts and avoid tiny text.</li>
+                            <li>Test designs with accessibility tools like WAVE.</li>
+                        </ul>
+                    </div>
+                    <div class="detail-section">
+                        <h4 class="detail-subheader">Tip</h4>
+                        <p>Simulate color blindness to test your design’s accessibility.</p>
+                    </div>
+                    <div class="detail-section">
+                        <h4 class="detail-subheader">Fun Fact</h4>
+                        <p>Over 1 billion people worldwide benefit from accessible designs!</p>
+                    </div>
+                `
+            },
+            'iteration': {
+                title: 'Iterate and Refine',
+                content: `
+                    <div class="detail-section">
+                        <h4 class="detail-subheader">Overview</h4>
+                        <p>Iteration involves refining designs based on feedback and testing to improve quality.</p>
+                    </div>
+                    <div class="detail-section">
+                        <h4 class="detail-subheader">Key Concepts</h4>
+                        <ul class="detail-list">
+                            <li><strong>Feedback Loops</strong>: Gather input from users or stakeholders.</li>
+                            <li><strong>Prototyping</strong>: Test early versions to identify issues.</li>
+                            <li><strong>Refinement</strong>: Make incremental improvements.</li>
+                        </ul>
+                    </div>
+                    <div class="detail-section">
+                        <h4 class="detail-subheader">Rules</h4>
+                        <ul class="detail-list">
+                            <li>Seek diverse feedback to uncover blind spots.</li>
+                            <li>Test designs in real-world scenarios.</li>
+                            <li>Document changes to track improvements.</li>
+                        </ul>
+                    </div>
+                    <div class="detail-section">
+                        <h4 class="detail-subheader">Tip</h4>
+                        <p>Use tools like Figma for collaborative feedback and iteration.</p>
+                    </div>
+                    <div class="detail-section">
+                        <h4 class="detail-subheader">Fun Fact</h4>
+                        <p>Iterative design is key to Apple’s product development success!</p>
+                    </div>
+                `
+            }
+        };
+
+        function initializeApp() {
+            createShapes();
+            setupEventListeners();
+            document.querySelectorAll('.knowledge-card, .section-title').forEach(el => {
+                el.classList.add('fade-in-up');
+            });
+            document.getElementById('footer-year').textContent = new Date().getFullYear();
+        }
+
+        function createShapes() {
+            const shapesContainer = document.getElementById('shapes');
+            const shapeTypes = ['circle', 'square', 'triangle'];
+            for (let i = 0; i < 20; i++) {
+                const shape = document.createElement('div');
+                shape.className = `shape ${shapeTypes[Math.floor(Math.random() * 3)]}`;
+                shape.style.width = `${Math.random() * 50 + 20}px`;
+                shape.style.height = shape.style.width;
+                shape.style.left = `${Math.random() * 100}%`;
+                shape.style.top = `${Math.random() * 100}%`;
+                shape.style.animationDuration = `${Math.random() * 5 + 5}s`;
+                shape.style.animationDelay = `${Math.random() * 5}s`;
+                shapesContainer.appendChild(shape);
+            }
+        }
+
+        function toggleTheme() {
+            const body = document.body;
+            const currentTheme = body.getAttribute('data-theme');
+            const toggleIcon = document.querySelector('.mode-toggle i');
+            if (currentTheme === 'light') {
+                body.setAttribute('data-theme', 'dark');
+                toggleIcon.classList.remove('fa-sun');
+                toggleIcon.classList.add('fa-moon');
+            } else {
+                body.setAttribute('data-theme', 'light');
+                toggleIcon.classList.remove('fa-moon');
+                toggleIcon.classList.add('fa-sun');
+            }
+        }
+
+        function toggleDetail(knowledge) {
+            const overlay = document.getElementById('detailOverlay');
+            const title = document.getElementById('detailTitle');
+            const content = document.getElementById('detailContent');
+            const details = knowledgeDetails[knowledge];
+
+            if (details) {
+                title.textContent = details.title;
+                content.innerHTML = details.content;
+                overlay.style.display = 'flex';
+            }
+        }
+
+        function closeDetail() {
+            const overlay = document.getElementById('detailOverlay');
+            overlay.style.display = 'none';
+        }
+
+        function setupEventListeners() {
+            document.querySelectorAll('.knowledge-link').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const card = link.closest('.knowledge-card');
+                    const knowledge = card.getAttribute('data-knowledge');
+                    toggleDetail(knowledge);
+                });
+            });
+
+            document.getElementById('detailOverlay').addEventListener('click', (e) => {
+                if (e.target === document.getElementById('detailOverlay')) {
+                    closeDetail();
+                }
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    closeDetail();
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', initializeApp);
+    </script>
+</body>
+</html>
